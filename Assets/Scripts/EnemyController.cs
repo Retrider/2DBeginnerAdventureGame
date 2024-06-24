@@ -14,6 +14,7 @@ public class EnemyController : MonoBehaviour
     Animator animator;
     float timer;
     int direction = 1;
+    bool aggressive = true;
 
 
     // Start is called before the first frame update
@@ -26,9 +27,25 @@ public class EnemyController : MonoBehaviour
     }
 
 
+    // Update is called every frame
+    void Update()
+    {
+        if (!aggressive)
+        {
+            return;
+        }
+
+    }
+
     // FixedUpdate has the same call rate as the physics system
     void FixedUpdate()
     {
+        if (!aggressive)
+        {
+            return;
+        }
+
+
         timer -= Time.deltaTime;
 
 
@@ -58,6 +75,7 @@ public class EnemyController : MonoBehaviour
     }
 
 
+
     void OnTriggerStay2D(Collider2D other)
     {
         PlayerController controller = other.GetComponent<PlayerController>();
@@ -69,6 +87,15 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    public void Fix()
+    {
+        aggressive = false;
+        GetComponent<Rigidbody2D>().simulated = false;
+        animator.SetTrigger("Fixed");
+    }
 
 
 }
+
+
+
